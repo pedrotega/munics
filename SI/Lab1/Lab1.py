@@ -10,19 +10,21 @@ import paho.mqtt.client as mqtt
 
 # MQTT broker address and port
 mqttBroker = "mqtt.eclipseprojects.io"
+mqttBroker = "18.101.47.122"
+password = "HkxNtvLB3GC5GQRUWfsA"
+mqtt_id = "sinf"
 port = 1883
 ids = ["alpe", "si1", 'si2', 'si3']
-my_id = ids[0]
+my_id = ids[1]
 #path = [my_id, "si1", "si2", "alpe", "alpe", "si2", "si3", "si3", "si1"]
 #path = [my_id, "si2", "si2", "si1", "alpe", "si3", "alpe", "alpe", "si3", "si3"]
-path = ["alpe", "si1", "alpe", 'alpe', 'si2', "alpe", 'si3']
-path = ["si1", "si1", "si1","si2", "si1", "si2", "si3"]
+path = ["alpe", "si1", "alpe", 'alpe', 'jal', "jal", 'alpe', 'si2', 'jal']
 anonymous = False
 
 
 pubkeydictionary = {
 	"alpe": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkh11pHrMUzT0D9E1WVLwMJ2Uu9KP/wQMelB2P0kw4CMR0+6kNDKUSbxF23Ksimd0f9TqgWCkAZ375RRynR1y1GSa+GHItnM9n5rWshBbUbqN7O/4PjHrGde97mSRgsryurKuOIiKy53BF/oTqa4NaNKFx3noLlSpp++Lla9Qtf9Hv6Nl5PDeSr/7V+Uate26vyZAliPzpvcq7FMEz4RwnBcYvq7qoGaKcQTMZaHENJKaX/jrMfQEBMDy2QDIU5EYE4POIbHsFmas/iT0kDvBF9ZVo1llQZuhkhxAOpHeec8LsxqdQr7xMqzxJ+Pz4rEQvfkqoFHB3Sq0u+ZXypNDbwIDAQAB",
-	"jal": "AAAAB3NzaC1yc2EAAAADAQABAAABgQDYPsHbba2p0bRdakkF5hq3thtLlXOthSlcRIb11nigqL97nZ+/ZBaCDkvwT+jRlnA+VXIH3u0Cu+QCVXC9dxOhw3i6JUdOeG+GhtizdqqeId7pnh1/KP4EuOVXFQJy/hKdW/t21qMWsG/7NoqR1FNoFdHyu2yRIgvjR3v4Yh/blnt1mL783PtnmoWtfu4txi7qEOuMQS91u6SJEcRpYzBkabi0eMz2IxgKIDzjsQ+2BeN7pulMPoEaedZKWoMQo13vM8zeqgbUXpavf8D6YN7RtzEYx4PeP2xlkcxFUNMqx7UIiWlygAd8MX5fhmABYv0xKn/PuxMEJOk+7ndSQJ1Sx6EqbIUxtvI+S8eM67zlPP/byr8zNzYCkqgB+RF3DXOVrOpguWcFjV67x7dRoEpj2U60kvhrZID7Mya10CxkLAgl+NpvpaxaRkYN2wthycmioXGCfN7+EwEZBjMwZc1t5i1pMigkFANvbQK5vJE0innjJZIUpr2H8ZV8rkBhcV8a=",
+	"jal": "AAAAB3NzaC1yc2EAAAADAQABAAABgQDYPsHbba2p0bRdakkF5hq3thtLlXOthSlcRIb11nigqL97nZ+/ZBaCDkvwT+jRlnA+VXIH3u0Cu+QCVXC9dxOhw3i6JUdOeG+GhtizdqqeId7pnh1/KP4EuOVXFQJy/hKdW/t21qMWsG/7NoqR1FNoFdHyu2yRIgvjR3v4Yh/blnt1mL783PtnmoWtfu4txi7qEOuMQS91u6SJEcRpYzBkabi0eMz2IxgKIDzjsQ+2BeN7pulMPoEaedZKWoMQo13vM8zeqgbUXpavf8D6YN7RtzEYx4PeP2xlkcxFUNMqx7UIiWlygAd8MX5fhmABYv0xKn/PuxMEJOk+7ndSQJ1Sx6EqbIUxtvI+S8eM67zlPP/byr8zNzYCkqgB+RF3DXOVrOpguWcFjV67x7dRoEpj2U60kvhrZID7Mya10CxkLAgl+NpvpaxaRkYN2wthycmioXGCfN7+EwEZBjMwZc1t5i1pMigkFANvbQK5vJE0innjJZIUpr2H8ZV8rkBhcV8=",
 	"ANSB": "AAAAB3NzaC1yc2EAAAADAQABAAABgQC3b7S3QFbSpDb/PUA5BXQ8L6WZKFanf/lZFL2+8F5k6TM3R1CUM7/UiBkc8BqHa9nqbMyIkUonfM7q5aZRDXl8b7qXHDYxZppYw5VJotYtkQxG3lOfOwadPB2yhVX/IXD2Io7mQHvdpG6ntwfD0UEc9dl4oCHOVVvuGMzVGV6GmKkZfXuE2ucAeO7Yvo+Of+liw/XsqvSMlcHYmGLTXxTqVskBx53oWIJaURRgdGLIoSwWj8M/KmhwskBhQ1EN08PAssRpwMUyJyPAaj3f+ZRL5ISk/lJ5rkxYLYtNoyzxy7JKAbHYkx67b65Z4r/7+WG9Q+aS02pFgOYJavun32J3MsZhoawlqe1zfjq/fmOMOFv6+l2z0ktxkd9kBMZtAke8HkYmfX1oBG9d04w9/njQNtrxEc+7S+z9igeYb1TbTOJqgDCwbI9l1T7Jp03i0k4SPVzuLt4RtV9wZ2lnvIf1ZK/v0oL8u4hRB/TVyBHnbckV0TAYAskAiJ0BJz/v36c=",
 	"dpm": "AAAAB3NzaC1yc2EAAAADAQABAAABgQCwp6J5uoGXeNEdvhPQsXlNL5W3HDGGp5OjS0k+RnbkC4bWmfhCbX2pw39+hNoaNychiwdSpRt/Y7nQ9/aIMKIb12q1EckucOdVN992uvo/F+OBMR3JBiqKa/qg9aFZ8oAUoGZtabApjo4e7gyvpTNQDCCYfY05SWJ9rwxmjlFhO5WiM+8xuwJLmbm1csBi3EGqMcPdpM+R8F4oHvtRuxJB+N0Dc+PXpL7BJPd2ON/W3Fz/iHwp4o9UNujMTf39JGhtLP45L93+fNJZb085yGwZp1IlPLjUB4HQ5Ch89sZp2VZlN6cAvsDW1bNjWsX5p/+Iz3otZXGsIAGH9N8Rp2UpYfcl1uax8lw7xnXz5WHQTI/Drtf30BXSpKmrfcg6e4CsGC3urXHDczsCtgilOI97Al8q8TM7tl+DvYMToYj8XabF0lQwD54sdJwmnAPHpUnZQCgfVasIr3aSN9oEKlqcspzT57W9A+uCm/n1d5OfcLgzvNBOvXCPdbWV+gj400M=",
 	"egf": "AAAAB3NzaC1yc2EAAAADAQABAAABgQDhtZd49XQT0yCiPA6rQ5gJ+rKDdDKkRO3H7QW+EwNChM2Evdob9AqbCt47E4PHhCs/SE/X8qq6chkT58uXM2cv4txPzceHLKRB//kvLNhpLL2y+3Tk7AY81krX3PY6xwKnska+sqhvnGujmxWsq2vdQXbxQQGrfg0zK07910+nQ52n+xmJg3eHR2n2G5y14alarbaIYYmAywjFlvU0HMA6eNxWKZ8xLvEGHa556Q/tTwN2uZeijiBBCyZp8v1ULcEU5ENFs6j5IaMHh8YAT7ftDJIdXidnpQN8DnYRTiNBIIvp1eSdZYpTSb+QQAa7N1CkPe8aXzfCEpmJbmk9Htn5rcgSNcofDIrpLcrzF8immj2vzDRPdfSBsstvzQyxBHJKmcVoTSQ2fyVDVb+yrW1NoYe9YdxuRCjrVFzWuvI4ky4oosYo2ns9Qc7Sl5+O/IrYEy1QuiUhFTlPxLMejimm+ZT7HmIgIAZrIXogWq3yf71L/fNXj5ubvrZDvNbsBc8a=",
@@ -93,7 +95,7 @@ def encrypt(pubk, m: bytes) -> bytes:
     # Encrypt message
     aesgcm = AESGCM(key)
     nonce = key
-    ciphertext = aesgcm.encrypt(nonce, m, None)
+    ciphertext = aesgcm.encrypt(nonce, m, key)
     return key_encrypt + ciphertext
 
 
@@ -147,7 +149,7 @@ def decrypt(privk, m:bytes)->bytes:
         )
     aesgcm = AESGCM(key)
     nonce = key
-    return aesgcm.decrypt(nonce, c, None)
+    return aesgcm.decrypt(nonce, c, key)
 
 def decode_and_relay_messages(privk, c: bytes):
     # Decrypt key
@@ -165,6 +167,7 @@ def decode_and_relay_messages(privk, c: bytes):
     else:
         print("Sending message to " + next_hop + ".")
         client = mqtt.Client()
+        client.username_pw_set(username=mqtt_id, password=password)
         client.connect(mqttBroker)
         client.publish(next_hop, m)
         client.disconnect()
@@ -177,6 +180,7 @@ def parseId(id: str):
 
 def publisher():
     client = mqtt.Client()
+    client.username_pw_set(username=mqtt_id, password=password)
     client.connect(mqttBroker)
 
     while True:
@@ -190,6 +194,7 @@ def on_message(client, userdata, message):
 
 def subscriber():
     client = mqtt.Client()
+    client.username_pw_set(username=mqtt_id, password=password)
     client.connect(mqttBroker)
 
     client.subscribe(my_id)
