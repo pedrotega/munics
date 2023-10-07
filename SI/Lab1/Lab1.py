@@ -14,10 +14,10 @@ mqttBroker = "18.101.47.122"
 password = "HkxNtvLB3GC5GQRUWfsA"
 mqtt_id = "sinf"
 port = 1883
+
+# IDs: "si1", "si2" and "si3" were created only for testing reasons.
 ids = ["alpe", "si1", 'si2', 'si3']
-my_id = ids[1]
-#path = [my_id, "si1", "si2", "alpe", "alpe", "si2", "si3", "si3", "si1"]
-#path = [my_id, "si2", "si2", "si1", "alpe", "si3", "alpe", "alpe", "si3", "si3"]
+my_id = ids[0]
 path = ["alpe", "si1", "alpe", 'alpe', 'jal', "jal", 'alpe', 'si2', 'jal']
 anonymous = False
 
