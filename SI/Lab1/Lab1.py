@@ -9,7 +9,6 @@ from cryptography.hazmat.primitives.asymmetric import padding
 import paho.mqtt.client as mqtt
 
 # MQTT broker address and port
-mqttBroker = "mqtt.eclipseprojects.io"
 mqttBroker = "18.101.47.122"
 password = "HkxNtvLB3GC5GQRUWfsA"
 mqtt_id = "sinf"
@@ -18,7 +17,8 @@ port = 1883
 # IDs: "si1", "si2" and "si3" were created only for testing reasons.
 ids = ["alpe", "si1", 'si2', 'si3']
 my_id = ids[0]
-path = ["alpe", "si1", "alpe", 'alpe', 'jal', "jal", 'alpe', 'si2', 'jal']
+#path = ["alpe", "si1", "alpe", 'alpe', 'jal', "jal", 'alpe', 'si2', 'jal']
+path = [my_id, 'ANSB']
 anonymous = False
 
 
@@ -95,7 +95,7 @@ def encrypt(pubk, m: bytes) -> bytes:
     # Encrypt message
     aesgcm = AESGCM(key)
     nonce = key
-    ciphertext = aesgcm.encrypt(nonce, m, key)
+    ciphertext = aesgcm.encrypt(nonce, m, None)
     return key_encrypt + ciphertext
 
 
@@ -149,7 +149,7 @@ def decrypt(privk, m:bytes)->bytes:
         )
     aesgcm = AESGCM(key)
     nonce = key
-    return aesgcm.decrypt(nonce, c, key)
+    return aesgcm.decrypt(nonce, c, None)
 
 def decode_and_relay_messages(privk, c: bytes):
     # Decrypt key
