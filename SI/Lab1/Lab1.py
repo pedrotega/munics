@@ -6,7 +6,7 @@ from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 # RSA-OAEP Encrypting and decrypting
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import padding
-import paho.mqtt.client as mqtt
+
 
 # MQTT broker address and port
 mqttBroker = "18.101.47.122"
