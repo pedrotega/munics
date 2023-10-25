@@ -151,9 +151,6 @@ def Bob():
 
 
 def on_message_alice(client, userdata, message):
-    client = mqtt.Client()
-    client.username_pw_set(username=mqtt_id, password=password)
-    client.connect(mqttBroker,port)
     ctx = message.payload[:5].replace(b'\x00', b'').decode()
     pref = '\n[ALICE] - '
     if(ctx=='seed'):
@@ -174,8 +171,6 @@ def on_message_alice(client, userdata, message):
         print(pref+'Vector r recived.')
         c = info_alice['c']
         gs = prg_Gs(len(r), seed=info_alice['seed'])
-        print(pref,gs)
-        print(pref,len(gs))
         gr, gz = getGrGz(r, gs)
         e = []
         for i,j in zip(c,gr):
