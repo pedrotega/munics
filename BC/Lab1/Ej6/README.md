@@ -10,8 +10,11 @@
 ###
 - [Análisis y definición del escenario](#id1) :bar_chart:
 - [Diseño](#id2) :pencil:
+
     -[Caso de uso](#id2_1) :wrench:
+
     -[Estructura del contrato](#id2_2) :bookmark_tabs:
+    
 - [Utilidades](#id3) ⚙️
 
 ###
