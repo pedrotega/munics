@@ -44,6 +44,7 @@ contract SmartExam is SmartExamBase{
     // Function used by professors to start an exam. Once an exam starts, it is no longer modifiable.
     function startExam(uint _examId, string memory _url) external onlyProfessor {
         require(exams.length > _examId, "Exam does not exist.");
+        require((keccak256(bytes(exams[_examId].url)) == keccak256(bytes("null"))), "Exam has already started.");
         require(block.timestamp >= exams[_examId].dateExam, "Cannot start a exam before the dateExam.");
         exams[_examId].url = _url;
         exams[_examId].dateStartExam = block.timestamp;
@@ -56,7 +57,7 @@ contract SmartExam is SmartExamBase{
     }   
 
     // Getter used to access to the information of a particular exam.
-    function getExamSubmited(address _studAdd, uint _examId) external view returns(string memory, string memory){
+    function getExamSubmited(address _studAdd, uint _examId) external view onlyProfessor returns(string memory, string memory){
         require(exams.length > _examId, "Exam does not exist.");
         ExamStudent memory es = students[_studAdd].exams_done[_examId];
         require(es.studentAdd == msg.sender, "Student didn't submit this exam.");
@@ -92,11 +93,14 @@ contract SmartExam is SmartExamBase{
 
     // Function used to enroll into an exam.
     // We make this function payable because there are exams where you have to pay for taxes.
-    function enrollToExam(uint _examId) external payable {
+    function enrollIntoExam(uint _examId) external payable {
         // If a student doesn't pay the exact amount of wei to enroll in the exam, they cannot enroll into the exam.
         // We assume that is not their fault and we use the revert operation.
         if(msg.value != exams[_examId].enrollingPrice*1 wei){
             revert("Pay the exact price of enrolling in wei.");
+        }
+        if(exams[_examId].dateStartExam<block.timestamp){
+            revert("The deadline to enroll into the exam is over.");
         }
         if(students[msg.sender].add != address(0)){
             // If student exists, we check if is not enroll in the exam an we enroll it.
@@ -123,7 +127,9 @@ contract SmartExam is SmartExamBase{
     ) external onlyStudent {
         require(exams.length>_examId, "Exam does not exist.");
         Exam memory e = exams[_examId];
+        require(keccak256(abi.encodePacked(e.url)) != keccak256(abi.encodePacked("null")), "Exam has not started yet.");
         require(block.timestamp < e.dateStartExam + e.duration*60, "The exam is over, no submissions accepted.");
+        require(students[msg.sender].exams_done[_examId].studentAdd == address(0), "You has already sumbited the exam.");
         ExamStudent memory es = ExamStudent(msg.sender, e, _hash, _url_exam_submited, "null", "null", 0);
         students[msg.sender].exams_done[_examId] = es;
         examsSubmited[_examId].push(msg.sender);
