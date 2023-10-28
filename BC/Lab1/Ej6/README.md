@@ -74,12 +74,13 @@ En un principio cuando se crea un examen, este no va a estar almacenado en la bl
         * `onlyStudent`: Solo deja acceder a la función si la dirección que llama al contrato es la de un estudiante (para ello usa el mapa `students`). 
     * **Funciones**:
         * `_generarId`: Es una función privada que genera un número, que se usará como identificador, a partir de una dirección
-        * `addProfessor`: Permite al owner añadir profesores al contrato.
+        * `addProfessor`: Permite al _owner_ añadir profesores al contrato.
+        * `withdraw`: Permite al _owner_ obtener el _ether_ acumulado en la dirección del contrato obtenido por los precios de inscripción de los exámenes.
 
 > ℹ️ `_generarId` es la única función privada del contrato, el resto son externas. Se ha decidido así ya que el contrato se ha creado para poder ser utilizado por una DApp (solo se harán llamadas desde fuera del contrato).  
 
 
-> ℹ️ Para limitar el acceso a las funciones que solo se puede acceder el owner se ha importado el modificador `onlyOwner` del repositorio de [openzeppelin](https://www.openzeppelin.com/)
+> ℹ️ Para limitar el acceso a las funciones que solo se puede acceder el _owner_ se ha importado el modificador `onlyOwner` del repositorio de [openzeppelin](https://www.openzeppelin.com/)
          
             
 

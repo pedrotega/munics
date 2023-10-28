@@ -96,7 +96,7 @@ contract SmartExamBase is Ownable {
 
     // Function used by the owner to add professors addresses.
     function addProfessor(address _profAdd) external onlyOwner returns(uint) {
-        //We use the revert instead of require because it rollup the state of the contract and it does not use gas.
+        //We use the revert instead of require because it rollup the state of the contract.
         if(profToId[_profAdd] != 0){
             revert("Professor was already added.");
         }
@@ -104,4 +104,9 @@ contract SmartExamBase is Ownable {
         profToId[_profAdd] = id;
         return id;
     } 
+
+    // Function used by the owner to get the ether stored in the contract address.
+    function withdraw() external onlyOwner {
+        owner.transfer(this.balance);
+    }
 }
