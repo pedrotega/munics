@@ -12,12 +12,16 @@ import es.storeapp.common.Constants;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.sql.Time;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
 import jakarta.annotation.PostConstruct;
 import org.apache.commons.compress.utils.IOUtils;
 import org.apache.commons.mail.HtmlEmail;
@@ -29,12 +33,14 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Scanner; // Import the Scanner class to read text files
+
 @Service
 public class UserService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
-    private static final String SALT = "$2a$10$MN0gK0ldpCgN9jx6r0VYQO";
+    // private static final String SALT = "$2a$10$MN0gK0ldpCgN9jx6r0VYQO";
 
     @Autowired
     ConfigurationParameters configurationParameters;
@@ -55,6 +61,26 @@ public class UserService {
         resourcesDir = new File(configurationParameters.getResources());
     }
 
+    // - ######################### - CWE - 760 - #########################
+    // - Función para leer la cadena PEPPER que se usa para hacer el hash
+    private String getPEPPER(){
+        String pepper = "";
+        try {
+            File myObj = new File("./src/main/java/es/storeapp/business/entities/pepper.txt");
+            Scanner myReader = new Scanner(myObj);
+            while (myReader.hasNextLine()) {
+                pepper += myReader.nextLine();
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Not able to read \"pepper.txt\".");
+            e.printStackTrace();
+        }
+
+        return pepper;
+    }
+    // - #################################################################
+
     @Transactional(readOnly = true)
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
@@ -65,7 +91,15 @@ public class UserService {
         if (!userRepository.existsUser(email)) {
             throw exceptionGenerationUtils.toAuthenticationException(Constants.AUTH_INVALID_USER_MESSAGE, email);
         }
-        User user = userRepository.findByEmailAndPassword(email, BCrypt.hashpw(clearPassword, SALT));
+
+        // - ######################### - CWE - 760 - #########################
+        // - Ahora para calcular el hash de la contraseña se necesita el
+        //   SALT que se lee de la BBDD y el PEPPER.
+        String pepper = getPEPPER();
+        User user = userRepository.findByEmail(email);
+        user = userRepository.findByEmailAndPassword(email, BCrypt.hashpw(clearPassword + pepper, user.getSalt()));
+        // - #################################################################
+        
         if (user == null) {
             throw exceptionGenerationUtils.toAuthenticationException(Constants.AUTH_INVALID_PASSWORD_MESSAGE, email);
         }
@@ -125,11 +159,17 @@ public class UserService {
     @Transactional
     public User create(String name, String email, String password, String address,
             String image, byte[] imageContents) throws DuplicatedResourceException {
+        
         if (userRepository.findByEmail(email) != null) {
             throw exceptionGenerationUtils.toDuplicatedResourceException(Constants.EMAIL_FIELD, email,
                     Constants.DUPLICATED_INSTANCE_MESSAGE);
         }
-        User user = userRepository.create(new User(name, email, BCrypt.hashpw(password, SALT), address, image));
+        // - ######################### - CWE - 760 - #########################
+        // - Salt se calcula aleatoriamente y PEPPER se lee de un ".txt".
+        String salt = BCrypt.gensalt();
+        String pepper = getPEPPER();
+        User user = userRepository.create(new User(name, email, BCrypt.hashpw(password + pepper, salt), salt, address, image));
+        // - #################################################################
         saveProfileImage(user.getUserId(), image, imageContents);
         return user;
     }
@@ -166,11 +206,15 @@ public class UserService {
             throw exceptionGenerationUtils.toAuthenticationException(
                     Constants.AUTH_INVALID_USER_MESSAGE, id.toString());
         }
-        if (userRepository.findByEmailAndPassword(user.getEmail(), BCrypt.hashpw(oldPassword, SALT)) == null) {
+
+        // - ######################### - CWE - 760 - #########################
+        if (userRepository.findByEmailAndPassword(user.getEmail(), BCrypt.hashpw(oldPassword + getPEPPER(), user.getSalt())) == null) {
             throw exceptionGenerationUtils.toAuthenticationException(Constants.AUTH_INVALID_PASSWORD_MESSAGE,
                     id.toString());
         }
-        user.setPassword(BCrypt.hashpw(password, SALT));
+        user.setSalt(BCrypt.gensalt());
+        user.setPassword(BCrypt.hashpw(password + getPEPPER(), user.getSalt()));
+        // - #################################################################
         return userRepository.update(user);
     }
 
@@ -183,7 +227,10 @@ public class UserService {
         if (user.getResetPasswordToken() == null || !user.getResetPasswordToken().equals(token)) {
             throw exceptionGenerationUtils.toAuthenticationException(Constants.AUTH_INVALID_TOKEN_MESSAGE, email);
         }
-        user.setPassword(BCrypt.hashpw(password, SALT));
+        // - ######################### - CWE - 760 - #########################
+        user.setSalt(BCrypt.gensalt());
+        user.setPassword(BCrypt.hashpw(password + getPEPPER(), user.getSalt()));
+        // - #################################################################
         user.setResetPasswordToken(null);
         return userRepository.update(user);
     }

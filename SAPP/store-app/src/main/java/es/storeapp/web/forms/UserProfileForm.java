@@ -1,6 +1,7 @@
 package es.storeapp.web.forms;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,6 +14,9 @@ public class UserProfileForm {
     @NotNull
     private String email;
     
+    @NotNull
+    @Pattern(regexp="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$",
+    message="Min. 8 caracteres, 1 mayúscula, 1 minúscula y 1 número") 
     private String password;
     
     @NotNull

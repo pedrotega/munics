@@ -85,6 +85,7 @@ create table users (
     image varchar(255),
     name varchar(255) not null,
     password varchar(255) not null,
+    salt varchar(255) not null,
     reset_password_token varchar(255),
     primary key (user_id)
 );

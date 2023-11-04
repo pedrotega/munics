@@ -42,6 +42,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+// - ######################### - CWE - 799 - #########################
+// - Añadir timeout para incrementar el tiempo en ataques de fuerza bruta.
+import java.util.concurrent.TimeUnit;
+// - #################################################################
+
 @Controller
 public class UserController {
 
@@ -68,7 +73,7 @@ public class UserController {
                            @CookieValue(value = Constants.PERSISTENT_USER_COOKIE, required = false) String userInfo) {
         if (userInfo != null) {
             Cookie userCookie = new Cookie(Constants.PERSISTENT_USER_COOKIE, null);
-            userCookie.setMaxAge(0); // remove
+            userCookie.setMaxAge(604800); // One week
             response.addCookie(userCookie);
         }
         if (session != null) {
@@ -121,6 +126,7 @@ public class UserController {
                           @RequestParam(value = Constants.NEXT_PAGE, required = false) String next,
                           HttpSession session,
                           HttpServletResponse response,
+                          HttpServletRequest request,
                           Locale locale, 
                           Model model) {
         if (result.hasErrors()) {  
@@ -129,9 +135,15 @@ public class UserController {
             return Constants.USER_PROFILE_PAGE;
         }
         User user;
+        // - ######################### - CWE - 384 - #########################
+        // - Antes de hacer el "login" se invalida la sesión actual 
+        //   y se crea una nueva
+        session.invalidate();
+        HttpSession newSession = request.getSession(); // create session
+        // - #################################################################
         try {
             user = userService.login(loginForm.getEmail(), loginForm.getPassword());
-            session.setAttribute(Constants.USER_SESSION, user);
+            newSession.setAttribute(Constants.USER_SESSION, user);
             if(logger.isDebugEnabled()) {
                 logger.debug(MessageFormat.format("User {0} logged in", user.getEmail()));
             }
@@ -147,6 +159,15 @@ public class UserController {
                 response.addCookie(userCookie);
             }
         } catch (AuthenticationException ex) {
+            // - ######################### - CWE - 799 - #########################
+            // - Añadir timeout para incrementar el tiempo en ataques de fuerza bruta.
+            try {
+                TimeUnit.SECONDS.sleep(3);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            // - #################################################################
+            
             if(logger.isDebugEnabled()) {
                 logger.debug(MessageFormat.format("User {0} not logged in ", loginForm.getEmail()));
             }
@@ -164,6 +185,7 @@ public class UserController {
                              BindingResult result,
                              RedirectAttributes redirectAttributes,
                              HttpSession session,
+                             HttpServletRequest request,
                              Locale locale, 
                              Model model) {
         if (result.hasErrors()) {
@@ -172,15 +194,23 @@ public class UserController {
             return Constants.USER_PROFILE_PAGE;
         }
         User user;
+        
         try {
             user = userService.create(userProfileForm.getName(), userProfileForm.getEmail(),
                     userProfileForm.getPassword(), userProfileForm.getAddress(),
                     userProfileForm.getImage() != null ? userProfileForm.getImage().getOriginalFilename() : null,
                     userProfileForm.getImage() != null ? userProfileForm.getImage().getBytes() : null);
+            
             if(logger.isDebugEnabled()) {
                 logger.debug(MessageFormat.format("User {0} with name {1} registered", user.getEmail(), user.getName()));
             }
-            session.setAttribute(Constants.USER_SESSION, user);
+            // - ######################### - CWE - 384 - #########################
+            // - Antes de hacer el "register" se invalida la sesión actual 
+            //   y se crea una nueva
+            session.invalidate();
+            HttpSession newSession = request.getSession(); // create session
+            // - #################################################################
+            newSession.setAttribute(Constants.USER_SESSION, user);
             redirectAttributes.addFlashAttribute(Constants.SUCCESS_MESSAGE, messageSource.getMessage(
                     Constants.REGISTRATION_SUCCESS_MESSAGE, new Object[]{user.getName()}, locale));
         } catch (DuplicatedResourceException ex) {

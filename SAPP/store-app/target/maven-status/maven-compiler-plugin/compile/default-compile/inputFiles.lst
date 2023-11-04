@@ -26,6 +26,7 @@
 /home/pedro/munics/SAPP/store-app/src/main/java/es/storeapp/business/repositories/UserRepository.java
 /home/pedro/munics/SAPP/store-app/src/main/java/es/storeapp/business/utils/ExceptionGenerationUtils.java
 /home/pedro/munics/SAPP/store-app/src/main/java/es/storeapp/web/controller/CommentController.java
+/home/pedro/munics/SAPP/store-app/src/main/java/es/storeapp/business/entities/SaltPepper.java
 /home/pedro/munics/SAPP/store-app/src/main/java/es/storeapp/web/interceptors/CSPInterceptor.java
 /home/pedro/munics/SAPP/store-app/src/main/java/es/storeapp/business/entities/CreditCard.java
 /home/pedro/munics/SAPP/store-app/src/main/java/es/storeapp/Application.java

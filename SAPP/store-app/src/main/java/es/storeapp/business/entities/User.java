@@ -24,10 +24,11 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(String name, String email, String password, String address, String image) {
+    public User(String name, String email, String password, String salt, String address, String image) {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.salt = salt;
         this.address = address;
         this.image = image;
     }
@@ -44,6 +45,9 @@ public class User implements Serializable {
     
     @Column(name = "password", nullable = false)
     private String password;
+    
+    @Column(name = "salt", nullable = false)
+    private String salt;
 
     @Column(name = "address", nullable = false)
     private String address;
@@ -98,6 +102,14 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
     public String getAddress() {
         return address;
     }
@@ -140,8 +152,8 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("User{userId=%s, name=%s, email=%s, password=%s, address=%s, resetPasswordToken=%s, card=%s, image=%s}", 
-            userId, name, email, password, address, resetPasswordToken, card, image);
+        return String.format("User{userId=%s, name=%s, email=%s, password=%s, salt=%s, address=%s, resetPasswordToken=%s, card=%s, image=%s}", 
+            userId, name, email, password, salt, address, resetPasswordToken, card, image);
     }
 
 }
