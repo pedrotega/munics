@@ -115,9 +115,29 @@ Este contrato, basado en la librería `Ownable`, gestiona exámenes, profesores 
 - `isProfessor`: Verifica si el remitente de la llamada es un profesor.
 - `isStudentEnrolled`: Verifica si el remitente de la llamada es un estudiante inscrito.
 
-> ℹ️ Para limitar el acceso a las funciones que solo se puede acceder el _owner_ se ha importado el modificador `onlyOwner` del repositorio de [openzeppelin](https://www.openzeppelin.com/)
+> ℹ️ Para limitar el acceso a las funciones que solo se puede acceder el _owner_ se ha importado el modificador `onlyOwner` del repositorio de [openzeppelin](https://www.openzeppelin.com/).
          
 
 <div id="id3" />
 
 ## Demo ⚙️
+
+Para un mejor entendimiento de la aplicación de contrato `SmartExam` se han creado unos videos en los que se aprecia su funcionamiento:
+
+* En el primer vídeo podemos ver como un estudiante puede inscribirse en un examen, subirlo a la blockchain y posteriormente visualizarlo y descargarlo. 
+
+[student_ui.webm](https://github.com/pedrotega/munics/assets/115726518/961714ef-ced4-4717-bb6f-7a2775e483d8)
+
+> ℹ️ En el primer formulario de `login` lo que se hace es comprobar la dirección (en la blockchain de sepolia) del usario. Una vez obtenido se llama al contrato para diferenciar si el usuario es el propietario, un profesor, un estudiante inscrito o todavía no está inscrito.
+
+> ℹ️ Como _tesnet_ se ha utilizado la blockchain de [Sepolia](https://www.alchemy.com/overviews/sepolia-testnet).
+
+* En el segundo vído se puede ver como el propietario añade a un profesor y este puede ver la información del examen y subir la corrección del examen.
+
+[owner_professor_ui.webm](https://github.com/pedrotega/munics/assets/115726518/4f667888-7d1e-41a7-a499-8402c2f5be9e)
+
+> ℹ️ A veces la red de Sepolia tarda unos segundos en confirmar las modificaciones en el contrato. Es importante tenerlo en cuenta porque, por ejemplo, cuando se sube un archivo a IPFS hasta que no se confirme los cambios en el contrato el usuario no podrán recuperar el archivo (ya que primero se lee el CID del archivo en el contrato).
+
+* Y finalmente, en el último vídeo se muestra como un alumno puede recuperar la corrección del examen.
+
+[student_correction_ui.webm](https://github.com/pedrotega/munics/assets/115726518/c50044bf-26f6-4453-b9f3-2457711e0e61)
