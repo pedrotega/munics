@@ -1,7 +1,7 @@
-import ipfsStorage from "./abis/IpfsStorage.json";
+import smartExam from "./abis/SmartExam.json";
 
 const abis = {
-    ipfs: ipfsStorage,
+    ipfs: smartExam,
 };
 
 export default abis;
