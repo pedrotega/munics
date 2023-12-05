@@ -141,3 +141,5 @@ Para un mejor entendimiento de la aplicación de contrato `SmartExam` se han cre
 * Y finalmente, en el último vídeo se muestra como un alumno puede recuperar la corrección del examen.
 
 [student_correction_ui.webm](https://github.com/pedrotega/munics/assets/115726518/c50044bf-26f6-4453-b9f3-2457711e0e61)
+
+> ℹ️ Para asegurar la seguricidad en la aplicación se debería encriptar los archivos (tanto los examenes como las correcciones) antes de subirlos a IPFS.
