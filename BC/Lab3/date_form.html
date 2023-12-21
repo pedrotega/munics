@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario de Fecha y Hora</title>
+</head>
+
+<body>
+    <form id="datetimeForm">
+        <label for="datetime">Seleccionar Fecha y Hora:</label>
+        <input type="datetime-local" id="datetime" name="datetime" required>
+
+        <button type="submit">Enviar</button>
+    </form>
+
+    <script>
+        document.getElementById('datetimeForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevenir la presentación predeterminada del formulario
+
+            // Obtener el valor del campo de entrada de fecha y hora
+            const selectedDateTime = document.getElementById('datetime').value;
+
+            // Crear un objeto de fecha a partir del valor obtenido
+            const selectedDate = new Date(selectedDateTime);
+
+            // Obtener el tiempo UNIX
+            const unixTime = selectedDate.getTime() / 1000; // Convertir milisegundos a segundos
+
+            // Mostrar el tiempo UNIX en la consola
+            console.log('Tiempo UNIX:', unixTime);
+
+            // Puedes enviar este valor a un servidor utilizando Fetch API u operar con él aquí.
+        });
+    </script>
+</body>
+
+</html>

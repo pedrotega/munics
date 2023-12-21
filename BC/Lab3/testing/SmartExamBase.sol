@@ -40,7 +40,7 @@ contract SmartExamBase is Ownable {
     // '_studAdds' array that store the addresses of the students.
     address[] internal _studAdds;
     // '_examCIDs' stores the CIDs of the exams.
-    string[] internal _examCIDs; 
+    // string[] internal _examCIDs; 
     // '_correctionCIDs' stores the CIDs of the corrections.
     string[] internal _correctionCIDs; 
 
@@ -53,7 +53,7 @@ contract SmartExamBase is Ownable {
     // Check if the student exists.
     modifier checkStudent(address _studAdd) {
         bytes32 sub_bytes = keccak256(bytes(_students[_studAdd].submission));        
-        require(sub_bytes != keccak256(bytes("")), "Student is not erolled.");
+        require(sub_bytes != keccak256(bytes("")), "Student is not enrolled.");
         _;
     }
 

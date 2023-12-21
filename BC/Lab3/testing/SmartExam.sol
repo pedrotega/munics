@@ -9,13 +9,6 @@ contract SmartExam is SmartExamBase{
     /************************ - PROFESSOR - *****************************
     /********************************************************************/
 
-    // 'setStatement' let a professor upload the statement of the exam.
-    // function setStatement(
-    //     string memory _statement        
-    // ) external onlyProfessor {
-    //     statement = _statement;
-    //     dateLastUpload = block.timestamp;
-    // }
 
     // 'getStudents' let a professor to obtain the address of the enrolled students.
     function getStudents() external view onlyProfessor returns (address[] memory) {
@@ -54,6 +47,7 @@ contract SmartExam is SmartExamBase{
     // 'enroll' allows an address to enroll into an exam.
     function enroll() external payable {
         require(msg.value == enrollingPrice*1 wei, "Pay the exact amount of money.");
+        require(block.timestamp <= dateStartExam, "Exam is not available.");
         Student memory s = Student("null", "null", 0);
         _students[msg.sender] = s;
         _studAdds.push(msg.sender);
@@ -89,7 +83,7 @@ contract SmartExam is SmartExamBase{
     }
 
     // 'certificateStudent' getter to confirm that a student pass or not.
-    function certificateStudent() external view checkSubmission(msg.sender) returns(bool) {
+    function certificateStudent() external view checkStudent(msg.sender) returns(bool) {
         return (_students[msg.sender].score >= 5);
     }
 }
