@@ -3,5 +3,5 @@ const currentUnixTimestamp = Math.floor(Date.now() / 1000); // Get the current U
 const newUnixTimestamp = currentUnixTimestamp + 300; // Add 5 minutes (300 seconds) 
 
 console.log("\nCurrent Unix Timestamp:", currentUnixTimestamp);
-console.log("Current Timestamp:", new Date(currentUnixTimestamp*1000));
+console.log("Current Timestamp:", (new Date(currentUnixTimestamp*1000)).toLocaleString());
 console.log("Unix Timestamp + 5 minutes:", newUnixTimestamp);

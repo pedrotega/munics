@@ -83,7 +83,7 @@ contract SmartExam is SmartExamBase{
     }
 
     // 'certificateStudent' getter to confirm that a student pass or not.
-    function certificateStudent() external view checkStudent(msg.sender) returns(bool) {
-        return (_students[msg.sender].score >= 5);
+    function certificateStudent(address _studAdd) external view checkStudent(_studAdd) returns(bool) {
+        return (_students[_studAdd].score >= 5);
     }
 }

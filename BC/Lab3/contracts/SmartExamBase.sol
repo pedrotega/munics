@@ -39,8 +39,6 @@ contract SmartExamBase is Ownable {
     mapping(address => Student) internal _students;
     // '_studAdds' array that store the addresses of the students.
     address[] internal _studAdds;
-    // '_examCIDs' stores the CIDs of the exams.
-    // string[] internal _examCIDs; 
     // '_correctionCIDs' stores the CIDs of the corrections.
     string[] internal _correctionCIDs; 
 
