@@ -7,11 +7,19 @@
 * Pedro Otero García
 
 ###
+- [Contenidos](#id0) 📚
 - [Contratos](#id1) 📜
     - [Contrato SmartExamBase](#id1_1)
     - [Contrato SmartExam](#id1_2)
 - [Demostración](#id2) 📺
 ###
+
+<div id="id0" />
+
+## Contenidos 📚
+- **smartexam_dapp**: Contiene toda la lógica de la aplicación descentralizada.
+- **contracts**: Contiene los contratos inteligentes implementados escritos en Solidity.
+- **testing**: Son los ficheros utilizados para hacer los test unitarios con [https://spin.atomicobject.com/tests-solidity-foundry/](foundry).
 
 <div id="id1" />
 
@@ -47,20 +55,7 @@ El contrato se inicializa con varios parámetros que definen la estructura del e
 - **Funciones de Visualización**: `isOwner`, `isProfessor` e `isStudentEnrolled` permiten verificar la propiedad, ser profesor y el estado de inscripción de un estudiante, respectivamente.
 - **Obtener Enunciado** (`getStatement()`): Permite al propietario, profesores y estudiantes inscritos acceder al CID del enunciado.
 
-> [!NOTE]  
-> Highlights information that users should take into account, even when skimming.
-
-> [!TIP]
-> Optional information to help a user be more successful.
-
-> [!IMPORTANT]  
-> Crucial information necessary for users to succeed.
-
-> [!WARNING]  
-> Critical content demanding immediate user attention due to potential risks.
-
-> [!CAUTION]
-> Negative potential consequences of an action.
+> ℹ️ _SmartExamBase_ hereda del contrato de [openzeppelin](https://www.openzeppelin.com/) `Ownable.sol` que implementa funcionalidades para gestionar el propietario del contrato. Se puede, entre otras funcionalidades, obtener el propietario (`owner()`) o transferir la propiedad (`transferProperty()`)
 
 <div id="id1_2" />
 
@@ -83,4 +78,44 @@ El contrato se inicializa con varios parámetros que definen la estructura del e
 - **Obtener Puntuación Propia**: `getMyScore` devuelve la puntuación de un estudiante.
 - **Certificado de Estudiante**: `certificateStudent` confirma si un estudiante ha aprobado o no.
 
+<div id="id2" />
 
+## Demostración
+
+En el primer vídeo se puede ver como:
+
+1. Se comprueba que en el nodo de IPFS no existe ningún archivo subido.
+2. Se entra con la cuenta de propietario.
+3. Como propietario se añade un profesor al examen.
+4. Como propietario se editan los parámetros del examen.
+5. Se cambia a la cuenta estudiante.
+6. Como estudiante no registrado se registra al examen. Se tiene que actualizar la página porque los parámetros no se habían editado en la _blockchain_ (si los datos no se han editado al menos una vez no dejará inscribirse al examen).
+
+
+
+En este segundo vídeo se ha realizado:
+
+1. El propietario empieza el examen añadiendo el enunciado a la DApp.
+2. Se comprueba como el archivo se ha añadido al nodo de IPFS.
+3. Se cambia a la cuenta de estudiante.
+4. El estudiante descarga y visualiza el examen.
+5. El estudiante añade sus respuestas a la DApp.
+
+
+
+En el tercer vídeo se muestra el proceso de corrección por parte del profesor:
+
+1. El profesor obtiene los estudiantes inscritos en un examen.
+2. El profesor obtiene las respuestas de un estudiante a partir de su dirección.
+3. El profesor añade la corrección a la DApp.
+4. Se comprueba como la corrección se ha añadido a IPFS.
+5. El profesor comprueba las correcciones obtenidas
+
+
+
+
+Finalmente, en el último vídeo se puede ver como:
+
+1. El estudiante recupera se examen.
+2. Obtiene el fichero con las correcciones de su entrega.
+3. Visualiza la nota que ha obtenido.
