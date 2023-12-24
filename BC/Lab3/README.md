@@ -20,6 +20,7 @@
 - **smartexam_dapp**: Contiene toda la lógica de la aplicación descentralizada.
 - **contracts**: Contiene los contratos inteligentes implementados escritos en Solidity.
 - **testing**: Son los ficheros utilizados para hacer los test unitarios con [https://spin.atomicobject.com/tests-solidity-foundry/](foundry).
+- **[MUNICS][BC] - Práctica 3.pdf**: Archivo con la memoria del proyecto.
 
 <div id="id1" />
 
