@@ -441,18 +441,18 @@ function App() {
                   </form>
                   <div id="imageStatementContainer"></div> 
 
-                  <form id="certificate-student" class="inline-form" onSubmit={handleCertificate}>
+                  <form id="withdraw" class="inline-form" onSubmit={handleWithdraw}>
+                      <h3>Withdraw revenue</h3>
+                      <button type="submit" className="btn">Withdraw</button>
+                  </form>
+                </div>
+                <form id="certificate-student" class="inline-form" onSubmit={handleCertificate}>
                     <h3>Check if student has the certificate</h3>
                     <label for="text">Student address:</label>
                     <input type="text" id="studAdd" name="studAdd"></input><br/>
                     <button type="submit" className="btn">Get</button>
                     <p id="certificateContainer"></p>
                   </form>  
-                </div>
-                <form id="withdraw" class="inline-form" onSubmit={handleWithdraw}>
-                    <h3>Withdraw revenue</h3>
-                    <button type="submit" className="btn">Withdraw</button>
-                </form>
                 <h1> </h1>
             </div>
           );
@@ -500,6 +500,7 @@ function App() {
             <div>
               <h1>Student's Page</h1>
               {INFO_EXAM}
+              <h1> </h1>
               <form id="download-statement" class="inline-form" onSubmit={handleDownloadStatement}>
                     <h3>Get statement file</h3>
                     <button type="submit" className="btn">Get</button>
@@ -536,8 +537,9 @@ function App() {
       } else {
         return_value = (        
             <div class="form-container">
-              {INFO_EXAM}
-              <h1>Public Page</h1>     
+            <h1>Public Page</h1>   
+              {INFO_EXAM}  
+              <h1> </h1>
               <form id="enroll" class="inline-form" onSubmit={handleEnroll}>
                 <h3>Enroll into exam ({ENROLLING_PRICE})</h3>
                 <button type="submit" className="btn">Enroll</button>
