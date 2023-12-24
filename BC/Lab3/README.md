@@ -47,8 +47,10 @@ El contrato se inicializa con varios parámetros que definen la estructura del e
 - **Funciones de Visualización**: `isOwner`, `isProfessor` e `isStudentEnrolled` permiten verificar la propiedad, ser profesor y el estado de inscripción de un estudiante, respectivamente.
 - **Obtener Enunciado** (`getStatement()`): Permite al propietario, profesores y estudiantes inscritos acceder al CID del enunciado.
 
-> [!NOTE]
->
+> .[!NOTE].
+> Nota
+
+> _[!Tip]_
 
 <div id="id1_2" />
 
