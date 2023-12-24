@@ -51,6 +51,7 @@ El contrato se inicializa con varios parámetros que definen la estructura del e
 > Nota
 
 > _[!Tip]_
+> hola
 
 <div id="id1_2" />
 
