@@ -91,7 +91,7 @@ En el primer vídeo se puede ver como:
 5. Se cambia a la cuenta estudiante.
 6. Como estudiante no registrado se registra al examen. Se tiene que actualizar la página porque los parámetros no se habían editado en la _blockchain_ (si los datos no se han editado al menos una vez no dejará inscribirse al examen).
 
-
+https://github.com/pedrotega/munics/assets/115726518/e81eb334-615b-4367-a2af-3f0e10bb480b
 
 En este segundo vídeo se ha realizado:
 
@@ -101,7 +101,7 @@ En este segundo vídeo se ha realizado:
 4. El estudiante descarga y visualiza el examen.
 5. El estudiante añade sus respuestas a la DApp.
 
-
+https://github.com/pedrotega/munics/assets/115726518/bf790aa6-1c21-4ec6-b0da-933924e7f751
 
 En el tercer vídeo se muestra el proceso de corrección por parte del profesor:
 
@@ -109,13 +109,15 @@ En el tercer vídeo se muestra el proceso de corrección por parte del profesor:
 2. El profesor obtiene las respuestas de un estudiante a partir de su dirección.
 3. El profesor añade la corrección a la DApp.
 4. Se comprueba como la corrección se ha añadido a IPFS.
-5. El profesor comprueba las correcciones obtenidas
+5. El profesor comprueba las correcciones obtenidas. Se puede observar que hasta que la transacción de la corrección no se comfirme en la _blockchain_ de Sepolia, no se podrá acceder a sus datos (hacia el final del vídeo).
 
-
-
+https://github.com/pedrotega/munics/assets/115726518/73c7b79e-5885-451e-9690-1e0549b8a58c
 
 Finalmente, en el último vídeo se puede ver como:
 
 1. El estudiante recupera se examen.
 2. Obtiene el fichero con las correcciones de su entrega.
 3. Visualiza la nota que ha obtenido.
+
+https://github.com/pedrotega/munics/assets/115726518/5b2e5de7-6fad-454a-89f7-1d52cabb568b
+
